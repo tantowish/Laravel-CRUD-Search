@@ -50,9 +50,10 @@ class BukuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Buku $buku)
+    public function show($id)
     {
-        //
+        $buku = Buku::find($id);
+        return view('detail', compact('buku'));
     }
 
     /**

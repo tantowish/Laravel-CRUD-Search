@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="text-4xl font-bold my-8 text-center text-teal-500">Tambah Buku</h1>
+<h1 class="text-4xl font-bold my-8 text-center text-teal-500">Update Buku</h1>
 <div class="px-16 max-w-2xl mx-auto">
     <form method="post" action="{{ route('buku.updatedata', $buku->id) }}">
     @csrf

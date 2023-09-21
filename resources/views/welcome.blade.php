@@ -47,12 +47,15 @@
                     </td>
                     <td class="px-6 py-4 flex">
                         <a href="{{ route('buku.update', $buku->id) }}">
-                            <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-2 py-2.5 text-center mr-2 mb-2">Update</button>
+                            <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-xs px-2 py-2.5 text-center mr-2 mb-2">Update</button>
                         </a>
                         <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
                             @csrf
-                            <button onclick="return confirm('Yakin dek?')" type="submit" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-3 py-2.5 text-center mr-2 mb-2">Hapus</button>
+                            <button onclick="return confirm('Yakin dek?')" type="submit" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs px-3 py-2.5 text-center mr-2 mb-2">Hapus</button>
                         </form>
+                        <a href="{{ route('buku.detail', $buku->id) }}">
+                            <button type="submit" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-xs px-3 py-2.5 text-center mr-2 mb-2">Detail</button>
+                        </a>
                     </td>
                 </tr>
             @endforeach

@@ -26,3 +26,5 @@ Route::get('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.u
 
 Route::post('/buku{id}', [BukuController::class, 'updatedata'])->name('buku.updatedata');
 
+Route::get('/buku/detail/{id}', [BukuController::class, 'show'])->name('buku.detail');
+

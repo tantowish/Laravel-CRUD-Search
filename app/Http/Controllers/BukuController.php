@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Buku;
 use Illuminate\Http\Request;
 
@@ -13,15 +14,17 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $data_buku = Buku::all();
+        $data_buku = Buku::paginate(10);
         $data_buku_sorted = Buku::all()->sortByDesc('id');
+
+        $jumlah_buku = count($data_buku);
 
         $no=1;
 
         $length = Buku::count('id');
         $harga = Buku::sum('harga');
 
-        return view('welcome',  compact('data_buku', 'data_buku_sorted','no','length','harga'));
+        return view('index',  compact('data_buku', 'data_buku_sorted','no','length','harga','jumlah_buku'));
     }
 
     /**
@@ -37,13 +40,23 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'judul'=>'required|string',
+            'penulis'=>'required||string|max:30',
+            'harga'=>'required|numeric',
+            'tgl_terbit'=>'required|date'
+        ]);
         $buku = new Buku;
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
         $buku->harga = $request->harga;
-        $buku->tgl_terbit = $request->tgl_terbit;
+        
+        $date = Carbon::createFromFormat('m/d/Y', $request->tgl_terbit);
+        $formattedDate = $date->format('Y-m-d');
+        $buku->tgl_terbit = $formattedDate;
+        
         $buku->save();
-        return redirect('/buku');
+        return redirect('/buku')->with('pesan', 'Buku Berhasil di Tambahkan');
     }
 
 
@@ -75,14 +88,25 @@ class BukuController extends Controller
 
     public function updatedata(Request $request, $id)
     {
+        $this->validate($request, [
+            'judul'=>'required|string',
+            'penulis'=>'required||string|max:30',
+            'harga'=>'required|numeric',
+            'tgl_terbit'=>'required|date'
+        ]);
+
         $buku = Buku::find($id);
         
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
         $buku->harga = $request->harga;
-        $buku->tgl_terbit = $request->tgl_terbit;
+
+        $date = Carbon::createFromFormat('m/d/Y', $request->tgl_terbit);
+        $formattedDate = $date->format('Y-m-d');
+        $buku->tgl_terbit = $formattedDate;
+
         $buku->save();
-        return redirect('/buku');
+        return redirect('/buku')->with('pesan', 'Buku Berhasil di Update');
     }
 
     /**
@@ -92,6 +116,22 @@ class BukuController extends Controller
     {
         $buku = Buku::find($id);
         $buku->delete();
-        return redirect('/buku');
+        return redirect('/buku')->with('pesan', 'Buku Berhasil di Delete');
+    }
+
+    public function search(Request $request){
+        $data_buku = Buku::where(function($query) use ($request) {
+            $query->where('judul', 'like', '%' . $request->kata . '%')
+                  ->orWhere('penulis', 'like', '%' . $request->kata . '%');
+        })->paginate(10);        $data_buku_sorted = Buku::all()->sortByDesc('id');
+
+        $jumlah_buku = count($data_buku);
+
+        $no=1;
+
+        $length = Buku::count('id');
+        $harga = Buku::sum('harga');
+
+        return view('index',  compact('data_buku', 'data_buku_sorted','no','length','harga','jumlah_buku'));
     }
 }

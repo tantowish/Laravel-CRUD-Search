@@ -28,3 +28,4 @@ Route::post('/buku/{id}', [BukuController::class, 'updatedata'])->name('buku.upd
 
 Route::get('/buku/detail/{id}', [BukuController::class, 'show'])->name('buku.detail');
 
+Route::get('/buku/search', [BukuController::class,'search'])->name('buku.search');

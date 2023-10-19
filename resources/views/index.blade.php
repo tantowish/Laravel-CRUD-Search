@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+@if (count($data_buku) and $cari)
+<p>Ditemukan {{ count($data_buku) }} data dengan kata {{ $cari }}</p>
+    
+@endif
 
 <div class="container">
     @if(Session::has('pesan'))

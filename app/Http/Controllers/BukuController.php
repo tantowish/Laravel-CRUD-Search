@@ -24,7 +24,9 @@ class BukuController extends Controller
         $length = Buku::count('id');
         $harga = Buku::sum('harga');
 
-        return view('index',  compact('data_buku', 'data_buku_sorted','no','length','harga','jumlah_buku'));
+        $cari=null;
+
+        return view('index',  compact('data_buku', 'data_buku_sorted','no','length','harga','jumlah_buku','cari'));
     }
 
     /**
@@ -125,6 +127,8 @@ class BukuController extends Controller
                   ->orWhere('penulis', 'like', '%' . $request->kata . '%');
         })->paginate(10);        $data_buku_sorted = Buku::all()->sortByDesc('id');
 
+        $cari = $request->kata;
+
         $jumlah_buku = count($data_buku);
 
         $no=1;
@@ -132,6 +136,6 @@ class BukuController extends Controller
         $length = Buku::count('id');
         $harga = Buku::sum('harga');
 
-        return view('index',  compact('data_buku', 'data_buku_sorted','no','length','harga','jumlah_buku'));
+        return view('index',  compact('data_buku', 'data_buku_sorted','no','length','harga','jumlah_buku', 'cari'));
     }
 }
